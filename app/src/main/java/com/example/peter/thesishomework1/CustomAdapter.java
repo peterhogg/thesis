@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 /**
@@ -24,18 +25,23 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        TextView textView;
+
+        TextView pollQuestion;
+        TextView myVotes;
+        TextView globalVotes;
+        Button voteButton;
+
 
         if (view == null) {
             // there is no object to reuse, create one
-            textView = new TextView(context);
-            textView.setText(this.pollQuestions[i]);
+            pollQuestion = new TextView(context);
+            pollQuestion.setText(this.pollQuestions[i]);
         } else {
             // we're reusing an old object
-            textView = (TextView)view;
+            pollQuestion = (TextView)view;
         }
 
-        return textView;
+        return pollQuestion;
     }
 
     @Override
