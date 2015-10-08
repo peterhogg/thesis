@@ -8,30 +8,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/textView"
+        android:id="@+id/pollQuestion"
         android:padding="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/textView2"
-        android:layout_toRightOf="@id/textView"
+        android:id="@+id/myVotes"
+        android:layout_toRightOf="@id/pollQuestion"
         android:padding="5dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/textView3"
-        android:layout_toRightOf="@id/textView2"
+        android:id="@+id/globalVotes"
+        android:layout_toRightOf="@id/myVotes"
         android:padding="5dp"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
+        android:text="@string/voteButton"
+        android:id="@+id/voteButton"
         android:padding="5dp"
         android:layout_marginRight="20dp"
         android:layout_alignParentTop="true"

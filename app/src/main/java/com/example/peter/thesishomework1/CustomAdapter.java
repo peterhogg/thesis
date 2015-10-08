@@ -1,11 +1,13 @@
 package com.example.peter.thesishomework1;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+
 
 /**
  * Created by peter on 07/10/15.
@@ -31,17 +33,28 @@ public class CustomAdapter extends BaseAdapter {
         TextView globalVotes;
         Button voteButton;
 
+        LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if (view == null) {
-            // there is no object to reuse, create one
-            pollQuestion = new TextView(context);
-            pollQuestion.setText(this.pollQuestions[i]);
-        } else {
-            // we're reusing an old object
-            pollQuestion = (TextView)view;
-        }
+        view = inflater.inflate(R.layout.row_layout,viewGroup,false);
 
-        return pollQuestion;
+
+        pollQuestion = (TextView) view.findViewById(R.id.pollQuestion);
+        pollQuestion.setText(this.pollQuestions[i]);
+
+        myVotes = (TextView) view.findViewById(R.id.myVotes);
+        myVotes.setText("1");
+
+        globalVotes = (TextView) view.findViewById(R.id.globalVotes);
+        globalVotes.setText("2");
+
+        voteButton = (Button) view.findViewById(R.id.voteButton);
+        voteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO Create onClick listener for each button
+            }
+        });
+        return view;
     }
 
     @Override
