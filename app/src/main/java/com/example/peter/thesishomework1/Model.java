@@ -12,7 +12,7 @@ public class Model {
     Model(){
         this.aClicks = 0;
         this.bClicks = 0;
-        this.pollQuestions = new String[]{"a","b"};
+        this.pollQuestions = new String[]{"a","b","c"};
     }
 
     //Getter and setter for aClicks
