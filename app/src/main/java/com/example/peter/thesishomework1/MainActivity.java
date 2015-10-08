@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -19,7 +20,8 @@ public class MainActivity extends Activity {
         //Create a model class
         model = new Model();
 
-
+        /*
+        ************Old button handlers***********************
         //Creates event handler for button clicks
         Button aButton = (Button) findViewById(R.id.a_button);
         aButton.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +44,12 @@ public class MainActivity extends Activity {
                 updateBCounter();
             }
         });
+        **********************************************************/
+
+        //Populate the list view
+        String[] pollQuestions = model.getPollQuestions();
+        ListView listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(new CustomAdapter(this, pollQuestions));
     }
 
     @Override
@@ -65,6 +73,7 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+    /*
     public void updateACounter(){
         int a = model.getaClicks();
         TextView aTextview = (TextView) findViewById(R.id.a_text_view);
@@ -79,4 +88,5 @@ public class MainActivity extends Activity {
         bTextview.setText(Integer.toString(b));
 
     }
+    */
 }

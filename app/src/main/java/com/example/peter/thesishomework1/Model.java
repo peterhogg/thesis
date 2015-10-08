@@ -7,10 +7,12 @@ package com.example.peter.thesishomework1;
 public class Model {
     private int aClicks;
     private int bClicks;
+    private String[] pollQuestions;
 
     Model(){
         this.aClicks = 0;
         this.bClicks = 0;
+        this.pollQuestions = new String[]{"a","b"};
     }
 
     //Getter and setter for aClicks
@@ -27,6 +29,14 @@ public class Model {
     }
     public int getbClicks(){
         return this.bClicks;
+    }
+
+    //Getter and setter for pollQuestions
+    public void setPollQuestions(String[] pollQuestions){
+        this.pollQuestions = pollQuestions;
+    }
+    public String[] getPollQuestions(){
+        return pollQuestions;
     }
 
 }
