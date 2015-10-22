@@ -13,20 +13,22 @@ import android.widget.TextView;
  * Created by peter on 07/10/15.
  */
 public class CustomAdapter extends BaseAdapter {
-    private String[] pollQuestions;
+    private Model myModel;
     private Context context;
 
-    public CustomAdapter(Context context, String[] pollQuestions){
+    public CustomAdapter(Context context, Model myModel ){
         this.context = context;
-        this.pollQuestions = pollQuestions;
+        this.myModel = myModel;
     }
     @Override
     public int getCount() {
-        return pollQuestions.length;
+        return myModel.size();
     }
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+
+        CustomAdapter adapter = this;
 
         TextView pollQuestion;
         TextView myVotes;
@@ -51,7 +53,8 @@ public class CustomAdapter extends BaseAdapter {
         voteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO Create onClick listener for each button
+                myModel.vote(1);
+                myModel.notifyChange();
             }
         });
         return view;
