@@ -51,7 +51,7 @@ public class CustomAdapter extends BaseAdapter {
         pollQuestion.setText(pollOption);
 
         myVotes = (TextView) view.findViewById(R.id.myVotes);
-        myVotes.setText(votes);
+        myVotes.setText(Integer.toString(votes));
 
         globalVotes = (TextView) view.findViewById(R.id.globalVotes);
         //globalVotes.setText();
@@ -74,6 +74,6 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return myModel.pollQuestions.get(i);
+        return myModel.getItem(i);
     }
 }
