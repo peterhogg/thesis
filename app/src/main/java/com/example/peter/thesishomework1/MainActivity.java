@@ -20,36 +20,15 @@ public class MainActivity extends Activity {
         //Create a model class
         model = new Model();
 
-        /*
-        ************Old button handlers***********************
-        //Creates event handler for button clicks
-        Button aButton = (Button) findViewById(R.id.a_button);
-        aButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int a = model.getaClicks();
-                a++;
-                model.setaClicks(a);
-                updateACounter();
-            }
-        });
+        //Add the poll questions to the model
+        model.add("Poll Option 1");
+        model.add("Poll Option 2");
 
-        Button bButton = (Button) findViewById(R.id.b_button);
-        bButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int b = model.getbClicks();
-                b++;
-                model.setbClicks(b);
-                updateBCounter();
-            }
-        });
-        **********************************************************/
+
 
         //Populate the list view
-        String[] pollQuestions = model.getPollQuestions();
         ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(new CustomAdapter(this, pollQuestions));
+        listView.setAdapter(new CustomAdapter(this, model));
     }
 
     @Override
@@ -73,20 +52,5 @@ public class MainActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
-    /*
-    public void updateACounter(){
-        int a = model.getaClicks();
-        TextView aTextview = (TextView) findViewById(R.id.a_text_view);
-        aTextview.setText(Integer.toString(a));
 
-
-
-    }
-    public void updateBCounter(){
-        int b = model.getbClicks();
-        TextView bTextview = (TextView) findViewById(R.id.bTextView);
-        bTextview.setText(Integer.toString(b));
-
-    }
-    */
 }

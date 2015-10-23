@@ -30,30 +30,37 @@ public class CustomAdapter extends BaseAdapter {
 
         CustomAdapter adapter = this;
 
+        //Creates the view objects
         TextView pollQuestion;
         TextView myVotes;
         TextView globalVotes;
         Button voteButton;
+
+        //Grabs the information from the model
+        String pollOption = myModel.pollQuestions.get(i);
+        int votes = myModel.poll.get(pollOption);
+
 
         LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         view = inflater.inflate(R.layout.row_layout,viewGroup,false);
 
 
+        //Sets the text in the view
         pollQuestion = (TextView) view.findViewById(R.id.pollQuestion);
-        pollQuestion.setText(this.pollQuestions[i]);
+        pollQuestion.setText(pollOption);
 
         myVotes = (TextView) view.findViewById(R.id.myVotes);
-        myVotes.setText("1");
+        myVotes.setText(votes);
 
         globalVotes = (TextView) view.findViewById(R.id.globalVotes);
-        globalVotes.setText("2");
+        //globalVotes.setText();
 
         voteButton = (Button) view.findViewById(R.id.voteButton);
         voteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myModel.vote(1);
+                myModel.vote("");
                 myModel.notifyChange();
             }
         });
@@ -67,6 +74,6 @@ public class CustomAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int i) {
-        return pollQuestions[i];
+        return myModel.pollQuestions.get(i);
     }
 }
