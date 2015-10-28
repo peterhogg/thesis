@@ -53,9 +53,6 @@ public class CustomAdapter extends BaseAdapter {
         myVotes = (TextView) view.findViewById(R.id.myVotes);
         myVotes.setText(Integer.toString(votes));
 
-        globalVotes = (TextView) view.findViewById(R.id.globalVotes);
-        //globalVotes.setText();
-
         voteButton = (Button) view.findViewById(R.id.voteButton);
         voteButton.setOnClickListener(new View.OnClickListener() {
             @Override

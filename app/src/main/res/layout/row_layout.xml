@@ -21,14 +21,7 @@
         android:layout_below="@id/myVotesLabel"
         android:padding="5dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/globalVotes"
-        android:layout_toRightOf="@id/myVotes"
-        android:layout_below="@id/globalVotesLabel"
-        android:padding="5dp"/>
+
 
     <Button
         android:layout_width="wrap_content"

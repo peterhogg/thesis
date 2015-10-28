@@ -76,13 +76,7 @@
         android:id="@+id/myVotesLabel"
         android:layout_toRightOf="@id/pollQuestionLabel"
         android:padding="20dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Global Votes"
-        android:id="@+id/globalVotesLabel"
-        android:layout_toRightOf="@id/myVotesLabel"
-        android:padding="20dp"/>
+
     <ListView android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

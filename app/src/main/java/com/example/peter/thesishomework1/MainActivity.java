@@ -13,6 +13,7 @@ public class MainActivity extends Activity implements MyListener{
 
     private Model model;
     private CustomAdapter adapter;
+    private ListView listView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class MainActivity extends Activity implements MyListener{
         adapter = new CustomAdapter(this,model);
 
         //Populate the list view
-        ListView listView = (ListView) findViewById(R.id.listView);
+        listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new CustomAdapter(this, model));
 
         //Add the poll questions to the model
@@ -62,7 +63,9 @@ public class MainActivity extends Activity implements MyListener{
 
     public void changed(){
         //invalidate the list view so that it refreshes
-        adapter.notifyDataSetChanged();
+        listView.invalidateViews();
+        //adapter.notifyDataSetChanged();
+
     }
 
 }
