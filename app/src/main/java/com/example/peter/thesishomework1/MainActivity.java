@@ -9,9 +9,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements MyListener{
 
     private Model model;
+    private CustomAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +20,14 @@ public class MainActivity extends Activity {
 
         //Create a model class
         model = new Model();
+        model.addListener(this);
+
+        //Creates the adapter
+        adapter = new CustomAdapter(this,model);
+
+        //Populate the list view
+        ListView listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(new CustomAdapter(this, model));
 
         //Add the poll questions to the model
         model.add("Poll Option 1");
@@ -26,9 +35,7 @@ public class MainActivity extends Activity {
 
 
 
-        //Populate the list view
-        ListView listView = (ListView) findViewById(R.id.listView);
-        listView.setAdapter(new CustomAdapter(this, model));
+
     }
 
     @Override
@@ -51,6 +58,11 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void changed(){
+        //invalidate the list view so that it refreshes
+        adapter.notifyDataSetChanged();
     }
 
 }

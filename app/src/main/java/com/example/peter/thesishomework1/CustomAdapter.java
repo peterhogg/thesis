@@ -31,13 +31,13 @@ public class CustomAdapter extends BaseAdapter {
         CustomAdapter adapter = this;
 
         //Creates the view objects
-        TextView pollQuestion;
+        final TextView pollQuestion;
         TextView myVotes;
         TextView globalVotes;
         Button voteButton;
 
         //Grabs the information from the model
-        String pollOption = myModel.pollQuestions.get(i);
+        final String pollOption = myModel.pollQuestions.get(i);
         int votes = myModel.poll.get(pollOption);
 
 
@@ -60,8 +60,7 @@ public class CustomAdapter extends BaseAdapter {
         voteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myModel.vote("");
-                myModel.notifyChange();
+                myModel.vote(pollOption);
             }
         });
         return view;

@@ -1,25 +1,33 @@
 package com.example.peter.thesishomework1;
 
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+
 
 public class Model{
-    ArrayList<MyListener> listeners;
     ArrayList<String> pollQuestions;
     HashMap<String, Integer> poll;
+    MyListener listener;
 
     public Model(){
         //listeners = new ArrayList<>();
         pollQuestions = new ArrayList<>();
         poll = new HashMap<>();
     }
+    public void addListener(MyListener l){
+        this.listener = l;
+    }
 
     public void vote(String s){
         int votes = poll.get(s);
         votes ++;
         poll.put(s,votes);
+        Log.d("voted", s + ": " + votes);
+        notifyChange();
+
 
 
     }
@@ -28,6 +36,7 @@ public class Model{
         int votes = 0;
         pollQuestions.add(this.size(),s);
         poll.put(s, votes);
+        notifyChange();
 
     }
 
@@ -40,15 +49,8 @@ public class Model{
         }
     }
 
-    void addChangeListener(MyListener l){
-        this.listeners.add(l);
-
-    }
-
     void notifyChange(){
-        for (MyListener l:this.listeners) {
-            l.changed();
-        }
+        listener.changed();
     }
     public Object getItem(int i){
         if(this.pollQuestions == null){
@@ -59,6 +61,5 @@ public class Model{
         }
 
     }
-
 
 }
