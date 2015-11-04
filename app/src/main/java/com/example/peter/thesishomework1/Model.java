@@ -19,7 +19,7 @@ public class Model{
 
     public Model(Socket s){
         listeners = new ArrayList<>();
-        String url = "127.0.0.1:8000";
+        String url = "https://cryptic-brushlands-8704.herokuapp.com/:8000";
         try {
             s = IO.socket(url);
         } catch (URISyntaxException e) {
