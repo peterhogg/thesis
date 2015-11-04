@@ -2,23 +2,30 @@ package com.example.peter.thesishomework1;
 
 
 import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.github.nkzawa.emitter.Emitter;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
 
 public class Model{
     ArrayList<String> pollQuestions;
     HashMap<String, Integer> poll;
-    MyListener listener;
+    ArrayList<MyListener> listeners;
+    Socket socket;
 
-    public Model(){
-        //listeners = new ArrayList<>();
+    public Model(Socket s){
+        listeners = new ArrayList<>();
+        this.socket = s;
+        this.socket.connect();
+        this.socket.on("newVote",newVote);
+
         pollQuestions = new ArrayList<>();
         poll = new HashMap<>();
     }
     public void addListener(MyListener l){
-        this.listener = l;
+        listeners.add(listeners.size(), l);
     }
 
     public void vote(String s){
@@ -26,6 +33,11 @@ public class Model{
         votes ++;
         poll.put(s,votes);
         Log.d("voted", s + ": " + votes);
+        //TODO: remove the above code, and handle it server side
+        //Send a vote over the socket to the server
+
+        this.socket.emit("vote", s);
+        //Notify view that a change has occured, and redraw the listview
         notifyChange();
 
 
@@ -50,7 +62,10 @@ public class Model{
     }
 
     void notifyChange(){
-        listener.changed();
+        for (MyListener l:listeners) {
+            l.changed();
+
+        }
     }
     public Object getItem(int i){
         if(this.pollQuestions == null){
@@ -61,5 +76,11 @@ public class Model{
         }
 
     }
+    //Renews the view when a vote is received
+    private Emitter.Listener newVote = new Emitter.Listener(){
+        public void call(final Object... args) {
+            notifyChange();
+        }
+    };
 
 }

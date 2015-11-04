@@ -8,8 +8,21 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Socket;
+
+import java.net.URISyntaxException;
 
 public class MainActivity extends Activity implements MyListener{
+
+    private final String url = "localhost";// old : http://chat.socket.io
+
+    private Socket mSocket;
+    {
+        try {
+            mSocket = IO.socket(url);
+        } catch (URISyntaxException e) {}
+    }
 
     private Model model;
     private CustomAdapter adapter;
@@ -20,7 +33,7 @@ public class MainActivity extends Activity implements MyListener{
         setContentView(R.layout.activity_main);
 
         //Create a model class
-        model = new Model();
+        model = new Model(mSocket);
         model.addListener(this);
 
         //Creates the adapter
@@ -33,10 +46,12 @@ public class MainActivity extends Activity implements MyListener{
         //Add the poll questions to the model
         model.add("Poll Option 1");
         model.add("Poll Option 2");
+    }
 
-
-
-
+    @Override
+    protected void onDestroy(){
+        super.onDestroy();
+        this.mSocket.close();
     }
 
     @Override
