@@ -2,6 +2,8 @@ package com.example.peter.thesishomework1;
 
 
 import android.util.Log;
+
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,9 +19,15 @@ public class Model{
 
     public Model(Socket s){
         listeners = new ArrayList<>();
+        String url = "127.0.0.1:8000";
+        try {
+            s = IO.socket(url);
+        } catch (URISyntaxException e) {
+        }
+        s.on("newVote", newVote);
+        s.connect();
         this.socket = s;
-        this.socket.connect();
-        this.socket.on("newVote",newVote);
+
 
         pollQuestions = new ArrayList<>();
         poll = new HashMap<>();
@@ -79,7 +87,7 @@ public class Model{
     //Renews the view when a vote is received
     private Emitter.Listener newVote = new Emitter.Listener(){
         public void call(final Object... args) {
-            notifyChange();
+            //notifyChange();
         }
     };
 

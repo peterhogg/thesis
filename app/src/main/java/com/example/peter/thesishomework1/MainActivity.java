@@ -2,28 +2,20 @@ package com.example.peter.thesishomework1;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
-import java.net.URISyntaxException;
-
 public class MainActivity extends Activity implements MyListener{
 
-    private final String url = "localhost";// old : http://chat.socket.io
-
-    private Socket mSocket;
-    {
-        try {
-            mSocket = IO.socket(url);
-        } catch (URISyntaxException e) {}
-    }
-
+    private Socket s;
     private Model model;
     private CustomAdapter adapter;
     private ListView listView;
@@ -31,9 +23,8 @@ public class MainActivity extends Activity implements MyListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         //Create a model class
-        model = new Model(mSocket);
+        model = new Model(s);
         model.addListener(this);
 
         //Creates the adapter
@@ -51,7 +42,7 @@ public class MainActivity extends Activity implements MyListener{
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        this.mSocket.close();
+        this.s.close();
     }
 
     @Override
@@ -82,5 +73,6 @@ public class MainActivity extends Activity implements MyListener{
         //adapter.notifyDataSetChanged();
 
     }
+
 
 }
