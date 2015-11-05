@@ -19,7 +19,7 @@ public class Model{
 
     public Model(Socket s){
         listeners = new ArrayList<>();
-        String url = "https://cryptic-brushlands-8704.herokuapp.com/:8000";
+        String url = "//cryptic-brushlands-8704.herokuapp.com";
         try {
             s = IO.socket(url);
         } catch (URISyntaxException e) {
@@ -87,6 +87,7 @@ public class Model{
     //Renews the view when a vote is received
     private Emitter.Listener newVote = new Emitter.Listener(){
         public void call(final Object... args) {
+            Log.d("Incoming Socket Message", "A voted message has been sent out from the server");
             //notifyChange();
         }
     };
