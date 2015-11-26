@@ -40,8 +40,8 @@ public class MainActivity extends Activity implements MyListener{
     }
 
     @Override
-    protected void onDestroy(){
-        super.onDestroy();
+    protected void onStop(){
+        super.onStop();
         this.s.close();
     }
 

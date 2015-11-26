@@ -11,6 +11,9 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Model{
     ArrayList<String> pollQuestions;
     HashMap<String, Integer> poll;
@@ -19,13 +22,18 @@ public class Model{
 
     public Model(Socket s){
         listeners = new ArrayList<>();
-        String url = "//cryptic-brushlands-8704.herokuapp.com";
+        //String url = "//cryptic-brushlands-8704.herokuapp.com";
+        String url = "http://192.168.119.233:5000";
         try {
             s = IO.socket(url);
         } catch (URISyntaxException e) {
+            Log.e("Connection Error", "Socket was unable to connect");
+            e.printStackTrace();
         }
         s.on("newVote", newVote);
+        s.on("topicActivated", topicActivated);
         s.connect();
+
         this.socket = s;
 
 
@@ -43,8 +51,14 @@ public class Model{
         Log.d("voted", s + ": " + votes);
         //TODO: remove the above code, and handle it server side
         //Send a vote over the socket to the server
+        JSONObject data = new JSONObject();
+        try {
+            data.put("index",0);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
 
-        this.socket.emit("vote", s);
+        this.socket.emit("vote", data);
         //Notify view that a change has occured, and redraw the listview
         notifyChange();
 
@@ -88,6 +102,23 @@ public class Model{
     private Emitter.Listener newVote = new Emitter.Listener(){
         public void call(final Object... args) {
             Log.d("Incoming Socket Message", "A voted message has been sent out from the server");
+            //notifyChange();
+        }
+    };
+    private Emitter.Listener topicActivated = new Emitter.Listener(){
+        public void call(final Object... args) {
+            Log.d("Incoming Socket Message", "Topic Changed");
+
+            JSONObject data = (JSONObject) args[0];
+            try {
+                Log.d("data",data.getString("topic"));
+                //m.add(data.getString("topic"));
+                
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+
             //notifyChange();
         }
     };
