@@ -31,14 +31,12 @@ public class CustomAdapter extends BaseAdapter {
         CustomAdapter adapter = this;
 
         //Creates the view objects
-        final TextView pollQuestion;
-        TextView myVotes;
-        TextView globalVotes;
-        Button voteButton;
+        final TextView topicLbl;
+        Button understandButton;
+        Button likeButton;
 
         //Grabs the information from the model
-        final String pollOption = myModel.pollQuestions.get(i);
-        int votes = myModel.poll.get(pollOption);
+        final String topic = myModel.pollQuestions.get(i);
 
 
         LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -47,17 +45,21 @@ public class CustomAdapter extends BaseAdapter {
 
 
         //Sets the text in the view
-        pollQuestion = (TextView) view.findViewById(R.id.pollQuestion);
-        pollQuestion.setText(pollOption);
+        topicLbl = (TextView) view.findViewById(R.id.pollQuestion);
+        topicLbl.setText(topic);
 
-        myVotes = (TextView) view.findViewById(R.id.myVotes);
-        myVotes.setText(Integer.toString(votes));
-
-        voteButton = (Button) view.findViewById(R.id.voteButton);
-        voteButton.setOnClickListener(new View.OnClickListener() {
+        understandButton = (Button) view.findViewById(R.id.understandButton);
+        understandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myModel.vote(pollOption);
+                myModel.understand(topic);
+            }
+        });
+        likeButton = (Button) view.findViewById(R.id.likeButton);
+        likeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myModel.like(topic);
             }
         });
         return view;

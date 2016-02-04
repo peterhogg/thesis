@@ -9,27 +9,20 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/pollQuestion"
-        android:layout_below="@id/pollQuestionLabel"
         android:padding="5dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/myVotes"
-        android:layout_toRightOf="@id/pollQuestion"
-        android:layout_below="@id/myVotesLabel"
-        android:padding="5dp"/>
-
-
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/voteButton"
-        android:id="@+id/voteButton"
-        android:padding="5dp"
-        android:layout_marginRight="20dp"
+        android:text="@string/understand"
+        android:id="@+id/understandButton"
         android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/like"
+        android:id="@+id/likeButton"
+        android:layout_below="@+id/understandButton"
         android:layout_alignParentEnd="true" />
 </RelativeLayout>

@@ -3,5 +3,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="voteButton">Vote</string>
+    <string name="understand">Understand</string>
+    <string name="like">like</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.example.peter.thesishomework1;
 
 
+import android.app.Activity;
 import android.util.Log;
 
 import java.net.URISyntaxException;
@@ -14,6 +15,7 @@ import com.github.nkzawa.socketio.client.Socket;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+
 public class Model{
     ArrayList<String> pollQuestions;
     HashMap<String, Integer> poll;
@@ -22,16 +24,15 @@ public class Model{
 
     public Model(Socket s){
         listeners = new ArrayList<>();
-        //String url = "//cryptic-brushlands-8704.herokuapp.com";
-        String url = "http://192.168.119.233:5000";
+        String url = "https://cryptic-brushlands-8704.herokuapp.com";
+        //String url = "http://192.168.122.1:5000";
         try {
             s = IO.socket(url);
         } catch (URISyntaxException e) {
             Log.e("Connection Error", "Socket was unable to connect");
             e.printStackTrace();
         }
-        s.on("newVote", newVote);
-        s.on("topicActivated", topicActivated);
+        s.on("topic", topic);
         s.connect();
 
         this.socket = s;
@@ -44,26 +45,23 @@ public class Model{
         listeners.add(listeners.size(), l);
     }
 
-    public void vote(String s){
-        int votes = poll.get(s);
-        votes ++;
-        poll.put(s,votes);
-        Log.d("voted", s + ": " + votes);
-        //TODO: remove the above code, and handle it server side
-        //Send a vote over the socket to the server
+    public void understand(String s){
         JSONObject data = new JSONObject();
         try {
-            data.put("index",0);
+            data.put("name",s);
         }catch (JSONException e){
             e.printStackTrace();
         }
-
-        this.socket.emit("vote", data);
-        //Notify view that a change has occured, and redraw the listview
-        notifyChange();
-
-
-
+        this.socket.emit("understand", data);
+    }
+    public void like(String s){
+        JSONObject data = new JSONObject();
+        try {
+            data.put("name",s);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        this.socket.emit("like", data);
     }
 
     public void add(String s){
@@ -98,22 +96,17 @@ public class Model{
         }
 
     }
-    //Renews the view when a vote is received
-    private Emitter.Listener newVote = new Emitter.Listener(){
-        public void call(final Object... args) {
-            Log.d("Incoming Socket Message", "A voted message has been sent out from the server");
-            //notifyChange();
-        }
-    };
-    private Emitter.Listener topicActivated = new Emitter.Listener(){
-        public void call(final Object... args) {
-            Log.d("Incoming Socket Message", "Topic Changed");
 
+    final private Emitter.Listener topic = new Emitter.Listener(){
+        public void call(final Object... args) {
             JSONObject data = (JSONObject) args[0];
+            Log.d("JSON",data.toString());
             try {
-                Log.d("data",data.getString("topic"));
-                //m.add(data.getString("topic"));
-                
+                socket.emit("recevied", "");
+                //Add the new topic to the view
+                Log.d("this", this.toString());
+                add(data.getString("name"));
+
             }
             catch (Exception e){
                 e.printStackTrace();

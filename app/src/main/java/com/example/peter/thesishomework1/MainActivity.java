@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,9 +35,6 @@ public class MainActivity extends Activity implements MyListener{
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new CustomAdapter(this, model));
 
-        //Add the poll questions to the model
-        model.add("Poll Option 1");
-        model.add("Poll Option 2");
     }
 
     @Override
@@ -69,7 +67,16 @@ public class MainActivity extends Activity implements MyListener{
 
     public void changed(){
         //invalidate the list view so that it refreshes
-        listView.invalidateViews();
+        //
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                View view = findViewById(R.id.listView);
+                view.invalidate();
+                listView.invalidateViews();
+            }
+        });
+
         //adapter.notifyDataSetChanged();
 
     }
