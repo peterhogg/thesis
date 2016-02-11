@@ -25,6 +25,16 @@
         android:layout_height="wrap_content"
         app:dsb_min="0"
         app:dsb_max="10"
+        android:id="@+id/understandBar"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/understand"
+        android:id="@+id/textView"
         android:layout_below="@+id/likeButton"
         android:layout_alignParentStart="true" />
 </RelativeLayout>

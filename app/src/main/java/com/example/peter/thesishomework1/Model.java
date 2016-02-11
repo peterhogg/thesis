@@ -49,10 +49,11 @@ public class Model{
         listeners.add(listeners.size(), l);
     }
 
-    public void understand(String s){
+    public void understand(String s, int v){
         JSONObject data = new JSONObject();
         try {
             data.put("name",s);
+            data.put("value",v);
             data.put("id",uuid);
         }catch (JSONException e){
             e.printStackTrace();

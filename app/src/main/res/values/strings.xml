@@ -3,6 +3,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="understand">Understand</string>
+    <string name="understand">How Well do you understand the topic?</string>
     <string name="like">like</string>
 </resources>

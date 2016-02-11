@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
+
 
 /**
  * Created by peter on 07/10/15.
@@ -33,6 +35,7 @@ public class CustomAdapter extends BaseAdapter {
         //Creates the view objects
         final TextView topicLbl;
         Button understandButton;
+        DiscreteSeekBar understandBar;
         Button likeButton;
 
         //Grabs the information from the model
@@ -56,7 +59,27 @@ public class CustomAdapter extends BaseAdapter {
             }
         });
         */
+        understandBar =  (DiscreteSeekBar) view.findViewById(R.id.understandBar);
+        understandBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+                int value = seekBar.getProgress();
+                myModel.understand(topic, value);
+            }
+        });
+        int heartUnicode = 0x2764;
+        char[] heart = Character.toChars(heartUnicode);
         likeButton = (Button) view.findViewById(R.id.likeButton);
+        likeButton.setText(heart,0,heart.length);
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
