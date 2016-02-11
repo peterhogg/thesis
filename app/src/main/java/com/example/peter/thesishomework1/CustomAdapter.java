@@ -48,13 +48,14 @@ public class CustomAdapter extends BaseAdapter {
         topicLbl = (TextView) view.findViewById(R.id.pollQuestion);
         topicLbl.setText(topic);
 
-        understandButton = (Button) view.findViewById(R.id.understandButton);
+        /*understandButton = (Button) view.findViewById(R.id.understandButton);
         understandButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 myModel.understand(topic);
             }
         });
+        */
         likeButton = (Button) view.findViewById(R.id.likeButton);
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -28,12 +28,15 @@ public class MainActivity extends Activity implements MyListener{
         model = new Model(s);
         model.addListener(this);
 
+
         //Creates the adapter
         adapter = new CustomAdapter(this,model);
 
         //Populate the list view
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new CustomAdapter(this, model));
+
+        model.add("test");
 
     }
 
