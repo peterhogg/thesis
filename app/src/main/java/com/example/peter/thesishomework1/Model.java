@@ -21,18 +21,22 @@ public class Model{
     HashMap<String, Integer> poll;
     ArrayList<MyListener> listeners;
     Socket socket;
+    String uuid;
 
     public Model(Socket s){
         listeners = new ArrayList<>();
-        String url = "https://cryptic-brushlands-8704.herokuapp.com";
-        //String url = "http://192.168.122.1:5000";
+        //String url = "https://cryptic-brushlands-8704.herokuapp.com";
+        String url = "http://192.168.119.233:5000";
         try {
             s = IO.socket(url);
         } catch (URISyntaxException e) {
             Log.e("Connection Error", "Socket was unable to connect");
             e.printStackTrace();
         }
+        //Adds the callback funtions for socket events
         s.on("topic", topic);
+        s.on("id",id);
+
         s.connect();
 
         this.socket = s;
@@ -49,6 +53,7 @@ public class Model{
         JSONObject data = new JSONObject();
         try {
             data.put("name",s);
+            data.put("id",uuid);
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -58,6 +63,7 @@ public class Model{
         JSONObject data = new JSONObject();
         try {
             data.put("name",s);
+            data.put("id",uuid);
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -111,8 +117,21 @@ public class Model{
             catch (Exception e){
                 e.printStackTrace();
             }
+        }
+    };
 
-            //notifyChange();
+    //Assigns a UUID for the client
+    final private Emitter.Listener id = new Emitter.Listener(){
+        public void call(final Object... args) {
+            JSONObject data = (JSONObject) args[0];
+            Log.d("JSON",data.toString());
+            try {
+                uuid = data.getString("id");
+                Log.d("ID",uuid);
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
         }
     };
 
