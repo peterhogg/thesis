@@ -41,7 +41,6 @@ public class MainActivity extends Activity implements MyListener{
     @Override
     protected void onStop(){
         super.onStop();
-        this.s.close();
     }
 
     @Override

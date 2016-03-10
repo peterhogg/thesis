@@ -9,6 +9,8 @@
     <ListView android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
         android:gravity="center"/>
 
 </RelativeLayout>
