@@ -36,8 +36,6 @@ public class MainActivity extends Activity implements MyListener{
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(new CustomAdapter(this, model));
 
-        model.add("test");
-
     }
 
     @Override

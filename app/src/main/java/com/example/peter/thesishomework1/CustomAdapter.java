@@ -34,12 +34,26 @@ public class CustomAdapter extends BaseAdapter {
 
         //Creates the view objects
         final TextView topicLbl;
-        Button understandButton;
-        DiscreteSeekBar understandBar;
+        final TextView descriptionLlb;
         Button likeButton;
+        TextView understandLbl;
+        DiscreteSeekBar understandBar;
+
+
 
         //Grabs the information from the model
-        final String topic = myModel.pollQuestions.get(i);
+        Topic currentTopic = myModel.topics.get(i);
+        final String topic = currentTopic.title;
+        final String description = currentTopic.description;
+        Boolean interesting = currentTopic.interesting;
+        Boolean difficulty = currentTopic.difficulty;
+        int maxDifficulty = 10;
+        int minDifficulty = 0;
+        if (difficulty){
+            maxDifficulty = currentTopic.maxDifficulty;
+            minDifficulty = currentTopic.minDifficulty;
+        }
+
 
 
         LayoutInflater inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -47,45 +61,58 @@ public class CustomAdapter extends BaseAdapter {
         view = inflater.inflate(R.layout.row_layout,viewGroup,false);
 
 
-        //Sets the text in the view
-        topicLbl = (TextView) view.findViewById(R.id.pollQuestion);
+        //Sets the topic text in the view
+        topicLbl = (TextView) view.findViewById(R.id.topic);
         topicLbl.setText(topic);
 
-        /*understandButton = (Button) view.findViewById(R.id.understandButton);
-        understandButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myModel.understand(topic);
-            }
-        });
-        */
-        understandBar =  (DiscreteSeekBar) view.findViewById(R.id.understandBar);
-        understandBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
-            @Override
-            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
-            }
+        //Sets the description text in the view
+        descriptionLlb = (TextView) view.findViewById(R.id.description);
+        descriptionLlb.setText(description);
 
-            @Override
-            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-                int value = seekBar.getProgress();
-                myModel.understand(topic, value);
-            }
-        });
+        //Set the like button
         int heartUnicode = 0x2764;
         char[] heart = Character.toChars(heartUnicode);
         likeButton = (Button) view.findViewById(R.id.likeButton);
-        likeButton.setText(heart,0,heart.length);
-        likeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                myModel.like(topic);
-            }
-        });
+        if (interesting){
+            likeButton.setText(heart,0,heart.length);
+            likeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    myModel.like(topic);
+                }
+            });
+        }else {
+            likeButton.setVisibility(View.GONE);
+        }
+
+
+        //Sets the understand bar
+        understandBar = (DiscreteSeekBar) view.findViewById(R.id.understandBar);
+        understandLbl = (TextView) view.findViewById(R.id.understandLbl);
+        if(difficulty) {
+            understandBar.setMax(maxDifficulty);
+            understandBar.setMin(minDifficulty);
+            understandBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+                @Override
+                public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                }
+
+                @Override
+                public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+                    int value = seekBar.getProgress();
+                    myModel.understand(topic, value);
+                }
+            });
+        }else{
+            understandBar.setVisibility(View.GONE);
+            understandLbl.setVisibility(View.GONE);
+        }
+
         return view;
     }
 

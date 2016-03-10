@@ -12,12 +12,13 @@ import com.github.nkzawa.emitter.Emitter;
 import com.github.nkzawa.socketio.client.IO;
 import com.github.nkzawa.socketio.client.Socket;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
 public class Model{
-    ArrayList<String> pollQuestions;
+    ArrayList<Topic> topics;
     HashMap<String, Integer> poll;
     ArrayList<MyListener> listeners;
     Socket socket;
@@ -25,8 +26,8 @@ public class Model{
 
     public Model(Socket s){
         listeners = new ArrayList<>();
-        String url = "https://cryptic-brushlands-8704.herokuapp.com";
-        //String url = "http://192.168.119.233:5000";
+        //String url = "https://cryptic-brushlands-8704.herokuapp.com";
+        String url = "http://192.168.119.233:5000";
         try {
             s = IO.socket(url);
         } catch (URISyntaxException e) {
@@ -42,7 +43,8 @@ public class Model{
         this.socket = s;
 
 
-        pollQuestions = new ArrayList<>();
+
+        topics = new ArrayList<>();
         poll = new HashMap<>();
     }
     public void addListener(MyListener l){
@@ -71,20 +73,18 @@ public class Model{
         this.socket.emit("like", data);
     }
 
-    public void add(String s){
-        int votes = 0;
-        pollQuestions.add(this.size(),s);
-        poll.put(s, votes);
+    public void add(Topic t){
+        topics.add(this.size(), t);
         notifyChange();
 
     }
 
     public int size(){
-        if(this.pollQuestions == null){
+        if(this.topics == null){
             return 0;
         }
         else{
-            return this.pollQuestions.size();
+            return this.topics.size();
         }
     }
 
@@ -95,11 +95,11 @@ public class Model{
         }
     }
     public Object getItem(int i){
-        if(this.pollQuestions == null){
+        if(this.topics == null){
             return 0;
         }
         else{
-            return this.pollQuestions.get(i);
+            return this.topics.get(i);
         }
 
     }
@@ -109,10 +109,39 @@ public class Model{
             JSONObject data = (JSONObject) args[0];
             Log.d("JSON",data.toString());
             try {
+
                 socket.emit("recevied", "");
                 //Add the new topic to the view
-                Log.d("this", this.toString());
-                add(data.getString("name"));
+                String title = data.getString("title");
+                String description = data.getString("description");
+                Boolean interesting = data.getBoolean("interesting");
+                Boolean difficulty = data.getBoolean("difficulty");
+
+                Boolean quiz = data.getBoolean("quiz");
+                Topic theTopic = new Topic(title,description, interesting, difficulty, quiz);
+
+                if (difficulty){
+                    int maxDifficulty = data.getInt("maxDifficulty");
+                    int minDifficulty = data.getInt("minDifficulty");
+                    theTopic.maxDifficulty = maxDifficulty;
+                    theTopic.minDifficulty = minDifficulty;
+                }
+
+                if (quiz){
+                    theTopic.questionType = data.getJSONObject("question").getString("type");
+                    theTopic.questionText = data.getJSONObject("question").getString("text");
+                    JSONArray answersArray = data.getJSONArray("answers");
+                    for(int i = 0; i < answersArray.length(); i++){
+                        JSONObject a = (JSONObject) answersArray.get(i);
+                        String text = a.getString("text");
+                        Boolean correct = a.getBoolean("correct");
+                        Answer answer = new Answer(text,correct);
+
+                        theTopic.answers.add(theTopic.answers.size(),answer);
+                    }
+                }
+
+                add(theTopic);
 
             }
             catch (Exception e){
