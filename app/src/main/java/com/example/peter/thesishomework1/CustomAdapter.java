@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ToggleButton;
 import android.widget.TextView;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
@@ -35,7 +36,7 @@ public class CustomAdapter extends BaseAdapter {
         //Creates the view objects
         final TextView topicLbl;
         final TextView descriptionLlb;
-        Button likeButton;
+        ToggleButton likeButton;
         TextView understandLbl;
         DiscreteSeekBar understandBar;
 
@@ -72,9 +73,11 @@ public class CustomAdapter extends BaseAdapter {
         //Set the like button
         int heartUnicode = 0x2764;
         char[] heart = Character.toChars(heartUnicode);
-        likeButton = (Button) view.findViewById(R.id.likeButton);
+        likeButton = (ToggleButton) view.findViewById(R.id.likeButton);
         if (interesting){
-            likeButton.setText(heart,0,heart.length);
+            //likeButton.setText(heart,0,heart.length);
+            likeButton.setTextOff("Like");
+            likeButton.setTextOn("Unlike");
             likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
