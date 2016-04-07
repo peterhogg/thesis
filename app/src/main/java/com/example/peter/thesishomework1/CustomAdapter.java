@@ -1,11 +1,14 @@
 package com.example.peter.thesishomework1;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.RadioGroup;
 import android.widget.ToggleButton;
 import android.widget.TextView;
 
@@ -36,7 +39,7 @@ public class CustomAdapter extends BaseAdapter {
         //Creates the view objects
         final TextView topicLbl;
         final TextView descriptionLlb;
-        ToggleButton likeButton;
+        final ToggleButton likeButton;
         TextView understandLbl;
         DiscreteSeekBar understandBar;
 
@@ -81,7 +84,8 @@ public class CustomAdapter extends BaseAdapter {
             likeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    myModel.like(topic);
+                    Boolean checked = likeButton.isChecked();
+                    myModel.like(topic,checked );
                 }
             });
         }else {
@@ -107,7 +111,8 @@ public class CustomAdapter extends BaseAdapter {
 
                 @Override
                 public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-                    int value = seekBar.getProgress();
+                    double value = (double)seekBar.getProgress()/(double)seekBar.getMax();
+                    Log.d("v",value + "");
                     myModel.understand(topic, value);
                 }
             });

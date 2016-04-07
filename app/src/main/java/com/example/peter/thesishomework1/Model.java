@@ -26,8 +26,8 @@ public class Model{
 
     public Model(Socket s){
         listeners = new ArrayList<>();
-        String url = "https://cryptic-brushlands-8704.herokuapp.com";
-        //String url = "http://192.168.119.233:5000";
+        //String url = "https://cryptic-brushlands-8704.herokuapp.com";
+        String url = "http://192.168.119.233:5000";
         try {
             s = IO.socket(url);
         } catch (URISyntaxException e) {
@@ -51,9 +51,10 @@ public class Model{
         listeners.add(listeners.size(), l);
     }
 
-    public void understand(String s, int v){
+    public void understand(String s, double v){
         JSONObject data = new JSONObject();
         try {
+            Log.d("Value", v +  "");
             data.put("name",s);
             data.put("value",v);
             data.put("id",uuid);
@@ -62,10 +63,11 @@ public class Model{
         }
         this.socket.emit("understand", data);
     }
-    public void like(String s){
+    public void like(String s, Boolean c){
         JSONObject data = new JSONObject();
         try {
             data.put("name",s);
+            data.put("checked", c);
             data.put("id",uuid);
         }catch (JSONException e){
             e.printStackTrace();
